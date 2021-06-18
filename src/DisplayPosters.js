@@ -1,10 +1,15 @@
+import Tilt from 'react-tilt'
+
 function DisplayPosters(props) {
+    console.log(props);
     return (
-        <div class="posterBlock">
-            <p>Iron man Movie</p>
-            <img src="https://images-na.ssl-images-amazon.com/images/I/71lVAGaqBtL._AC_SY879_.jpg" alt="" />
-            <p>poster of the iron man movie</p>
-        </div>
+        <Tilt className="Tilt" options={{ max: 35, scale: 1, }} style={{ height: 'auto', width: 'auto' }} >
+            <div class="posterBlock">
+                <p class="hide">{props.name}</p>
+                <img src={props.imgUrl} alt={`An image for a poster of ` + props.name} />
+                <p class="hide">{props.description}</p>
+            </div>
+        </Tilt >
     )
 }
 
