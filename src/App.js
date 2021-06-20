@@ -2,14 +2,20 @@ import './App.css';
 import firebase from './firebase';
 import DisplayPosters from './DisplayPosters';
 import ModalOverlay from './ModalOverlay';
+import DisplayCart from './DisplayCart';
+
 // import { cartSubmit } from './ModalOverlay';
 import { useEffect, useState } from 'react';
+
+import { useForm } from 'react-hook-form';
+
 
 // import framework from https://www.npmjs.com/package/react-tilt used to give the images a tilt animation 
 // import Tilt from 'react-tilt'
 
 
 function App() {
+
 
   // state used to hold the posters from firebase array of objects
   const [postersList, setPostersList] = useState([]);
@@ -23,8 +29,14 @@ function App() {
   // used to hold a single object that will contain a selected images contents
   const [posterModal, setPosterModal] = useState([]);
 
+  const [defaultValue, setDefaultValue] = useState(0);
+
+  const [cartValues, setCartValue] = useState([]);
+
   // get firebase data on first state change
   useEffect(() => {
+
+    console.log(defaultValue);
     const dbRef = firebase.database().ref();
 
     dbRef.on('value', (response) => {
@@ -39,9 +51,61 @@ function App() {
     });
   }, [])
 
+  // CART FIREBASE STUFF
+  useEffect(() => {
+
+    // console.log(defaultValue);
+    const dbRef = firebase.database().ref();
+
+    dbRef.on('value', (response) => {
+
+      const arrayOfPosters = []; //used to hold the firebase objects
+      const data = response.val();
+      for (let key in data) {
+        if (key === 'cart') {
+          for (let value in data[key]) {
+            arrayOfPosters.push(data[key][value]);
+
+          }
+        }
+      }
+
+      setUserCart(arrayOfPosters);
+
+      //update the poster state
+    });
+
+  }, [])
+
+  function updateCart(passedThis) {
+    console.log();
+
+
+    for (let i = 0; i < passedThis.length; i++) {
+      const quantity = passedThis[i].childNodes[1].childNodes[1].childNodes[0].childNodes[1].value;
+      const id = passedThis[i].childNodes[0].id;
+      console.log(quantity + " " + id);
+
+      if (quantity === '0') {
+        firebase.database().ref('cart').child(id).remove();
+      } else {
+        firebase.database().ref('cart').child(id).update({ quantity: quantity });
+      }
+
+    }
+  }
+
+
+
+  const changeShowModal = (event) => {
+    setShowModal(event);
+  }
 
   // add event listeners to page
   useEffect(() => {
+
+    // console.log('i ran too');
+
     window.removeEventListener("click", (e) => {
       try {
         console.log(e.target.parentElement.children[0].innerText)
@@ -52,7 +116,7 @@ function App() {
     });
 
     window.addEventListener("keydown", (e) => {
-      console.log(e);
+      // console.log(e);
       try {
         if (e.target.parentNode.children[0].childNodes[1].nodeName === 'IMG' && e.key === "Enter") {
           try { //try to run this if this image has all these children elements basically this will only run on the main page images and not for modal or cart images
@@ -77,6 +141,7 @@ function App() {
 
       }
     });
+
 
     window.addEventListener('click', (e) => {
       // console.log(e);
@@ -116,6 +181,8 @@ function App() {
 
   // console.log(posterModal);
 
+
+
   return (
     <div className="App">
       <div className="backgroundAnimation"></div>
@@ -128,7 +195,7 @@ function App() {
 
           {/* ternary operator used to show modal */}
           {
-            showModal ? <ModalOverlay posterToDisplay={posterModal} /> : ``
+            showModal ? <ModalOverlay showModalState={() => changeShowModal()} posterToDisplay={posterModal} /> : ``
           }
 
 
@@ -143,19 +210,30 @@ function App() {
             })
           }
 
-
-
-
-
-
         </div>
 
         <div className="cartContainer">
-          <p>Cart</p>
+          <p className="cartTitle">Cart</p>
+
+          <div className="cartList">
+            {
+              console.log('I DID SOMETHING'),
+              userCart.map((userCart) => {
+                // console.log(userCart);
+                return (<DisplayCart quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} userCart={userCart} />)
+
+              })
+
+            }
+          </div>
+          <button class="cartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[1].childNodes)}>Update Cart</button>
+
+
         </div>
       </main>
     </div>
   );
 }
+
 
 export default App;

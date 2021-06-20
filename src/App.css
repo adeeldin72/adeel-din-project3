@@ -307,13 +307,53 @@ img {
   display: none;
 }
 
+/* CART CSS DOWN BELOW */
 .cartContainer {
   width: 18vw;
   background-color: #f6f6f6;
-  border-left: 4px solid black;
+  border-left: 4px solid #222831;
   /* min-height: auto; */
 }
 
+.cartTitle {
+  text-align: center;
+  text-transform: uppercase;
+  color: white;
+  background-color: #323232;
+  padding: 15px;
+  margin: 0px;
+  font-weight: 700;
+  letter-spacing: 1.25px;
+}
+.cartObject {
+  margin: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.2fr;
+  gap: 0px 0px;
+  grid-template-areas: ". .";
+}
+.cartObject img {
+  margin: auto;
+  width: 75%;
+  height: auto;
+}
+.cartButton {
+  display: none;
+  margin: auto;
+  animation: showButton 1.2s;
+}
+
+@keyframes showButton {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
+}
+
+/* MODAL CSS DOWN BELOW */
 .posterModal {
   overflow: hidden;
   position: absolute;
