@@ -2,10 +2,11 @@ import './App.css';
 import firebase from './firebase';
 import DisplayPosters from './DisplayPosters';
 import ModalOverlay from './ModalOverlay';
+// import { cartSubmit } from './ModalOverlay';
 import { useEffect, useState } from 'react';
 
 // import framework from https://www.npmjs.com/package/react-tilt used to give the images a tilt animation 
-import Tilt from 'react-tilt'
+// import Tilt from 'react-tilt'
 
 
 function App() {
@@ -30,16 +31,17 @@ function App() {
       const arrayOfPosters = []; //used to hold the firebase objects
       const data = response.val();
       for (let key in data) {
-        arrayOfPosters.push({ key: key, poster: data[key] });
+        if (key !== 'cart') {
+          arrayOfPosters.push({ key: key, poster: data[key] });
+        }
       }
       setPostersList(arrayOfPosters); //update the poster state
     });
   }, [])
 
 
-
+  // add event listeners to page
   useEffect(() => {
-
     window.removeEventListener("click", (e) => {
       try {
         console.log(e.target.parentElement.children[0].innerText)
@@ -49,8 +51,35 @@ function App() {
       }
     });
 
-    window.addEventListener('click', (e) => {
+    window.addEventListener("keydown", (e) => {
       console.log(e);
+      try {
+        if (e.target.parentNode.children[0].childNodes[1].nodeName === 'IMG' && e.key === "Enter") {
+          try { //try to run this if this image has all these children elements basically this will only run on the main page images and not for modal or cart images
+            const posterObject = [
+              {
+                name: e.target.parentNode.children[0].childNodes[0].innerText,
+                imgUrl: e.target.parentNode.children[0].childNodes[1].src,
+                imgAlt: e.target.parentNode.children[0].childNodes[1].alt,
+                description: e.target.parentNode.children[0].childNodes[2].innerText
+              }
+            ]
+            //set the specific object to be shown
+            setPosterModal(posterObject);
+
+            setShowModal(true);
+
+          } catch { //throw error but does nothing
+            console.log('I failed');
+          }
+        }
+      } catch {
+
+      }
+    });
+
+    window.addEventListener('click', (e) => {
+      // console.log(e);
 
       //if you click on an image html element
       if (e.target.nodeName === 'IMG') {
@@ -89,17 +118,17 @@ function App() {
 
   return (
     <div className="App">
-      <div class="backgroundAnimation"></div>
+      <div className="backgroundAnimation"></div>
       <header>
-        <h1>Posters<span class="sr-only">Plus</span>+</h1>
+        <h1>Posters<span className="sr-only">Plus</span>+</h1>
       </header>
       <main>
-        <div class="postersContainer">
+        <div className="postersContainer">
 
 
           {/* ternary operator used to show modal */}
           {
-            showModal ? <ModalOverlay /> : ``
+            showModal ? <ModalOverlay posterToDisplay={posterModal} /> : ``
           }
 
 
@@ -121,7 +150,7 @@ function App() {
 
         </div>
 
-        <div class="cartContainer">
+        <div className="cartContainer">
           <p>Cart</p>
         </div>
       </main>
