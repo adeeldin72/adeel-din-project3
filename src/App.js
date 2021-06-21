@@ -4,6 +4,7 @@ import DisplayPosters from './DisplayPosters';
 import ModalOverlay from './ModalOverlay';
 import DisplayCart from './DisplayCart';
 
+
 // import { cartSubmit } from './ModalOverlay';
 import { useEffect, useState } from 'react';
 
@@ -32,6 +33,8 @@ function App() {
   const [defaultValue, setDefaultValue] = useState(0);
 
   const [cartValues, setCartValue] = useState([]);
+
+  const [showMobileCart, setMobileCart] = useState(false);
 
   // get firebase data on first state change
   useEffect(() => {
@@ -171,6 +174,7 @@ function App() {
         setShowModal(false);
         const body = document.querySelector('body');
         body.style.overflow = 'visible';
+
       }
 
 
@@ -178,18 +182,26 @@ function App() {
 
   }, [])
 
-
-  // console.log(posterModal);
+  // make sure that the body flow is set back to visible
+  const body = document.querySelector('body');
+  body.style.overflow = 'visible';
 
 
 
   return (
     <div className="App">
       <div className="backgroundAnimation"></div>
+
+
       <header>
         <h1>Posters<span className="sr-only">Plus</span>+</h1>
       </header>
-      <main>
+      <main className="wrapper">
+
+        <button className="cartButtonIcon" onClick={() => setMobileCart(true)}>
+          <img src='./bag.png' alt="not fouund" />
+        </button>
+
         <div className="postersContainer">
 
 
@@ -210,6 +222,36 @@ function App() {
             })
           }
 
+          {
+            postersList.map((postersList) => {
+              if (showModal) {
+                return ''
+              } else {
+                return (<DisplayPosters name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} />)
+              }
+            })
+          }
+
+          {
+            postersList.map((postersList) => {
+              if (showModal) {
+                return ''
+              } else {
+                return (<DisplayPosters name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} />)
+              }
+            })
+          }
+
+          {
+            postersList.map((postersList) => {
+              if (showModal) {
+                return ''
+              } else {
+                return (<DisplayPosters name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} />)
+              }
+            })
+          }
+
         </div>
 
         <div className="cartContainer">
@@ -217,7 +259,7 @@ function App() {
 
           <div className="cartList">
             {
-              console.log('I DID SOMETHING'),
+
               userCart.map((userCart) => {
                 // console.log(userCart);
                 return (<DisplayCart quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} userCart={userCart} />)
@@ -226,10 +268,35 @@ function App() {
 
             }
           </div>
-          <button class="cartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[1].childNodes)}>Update Cart</button>
+          {userCart.length > 0 ? <button class="cartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[1].childNodes)}>Update Cart</button> :
+            <img src="https://preview.redd.it/oiusqopzyw921.png?auto=webp&s=161acb5216d5fd660e66cce29e7e0845cb16fc3d" alt="" />
+          }
+
 
 
         </div>
+        {
+          showMobileCart ? <div className="mobileCartContainer">
+            <p className="cartTitle">Cart</p>
+            <button class="mobileCartCloseButton" onClick={() => setMobileCart(false)}> Close Cart </button>
+
+            <div className="cartList">
+              {
+                userCart.map((userCart) => {
+                  // console.log(userCart);
+                  return (<DisplayCart quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} userCart={userCart} />)
+
+                })
+
+              }
+            </div>
+            <button class="mobileCartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[2].childNodes)}>Update Cart</button>
+
+
+
+          </div> : ''
+        }
+
       </main>
     </div>
   );

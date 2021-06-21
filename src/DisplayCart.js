@@ -13,8 +13,8 @@ function DisplayCart(props) {
         setName(props.quantity)
         console.log(name)
     }, [props.userCart])
-
-
+    console.log("this is in display cart");
+    console.log(props);
     return (
 
         <div className="cartObject">

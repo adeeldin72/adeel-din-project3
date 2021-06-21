@@ -100,6 +100,7 @@ function ModalOverlay(props) {
     return (
         <div id='modal' className="posterModal">
             <div className="innerContent">
+
                 <img src={props.posterToDisplay[0].imgUrl} alt={props.posterToDisplay[0].imgAlt} />
                 <div className="formContainer">
                     <p className='title'>{props.posterToDisplay[0].name}</p>
@@ -123,6 +124,7 @@ function ModalOverlay(props) {
                             </fieldset>
                         </div>
                         <button id="formButton" onClick={(e) => cartSubmit(e, props)}>Add to Cart</button>
+                        <button className="closeModalButton" onClick={() => props.showModalState(false)}>X</button>
                     </form>
                     <p className="modalDescription">{props.posterToDisplay[0].description}</p>
                 </div>
