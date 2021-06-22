@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-
 import React from 'react';
-
-
-
 
 function DisplayCart(props) {
 
@@ -13,8 +9,10 @@ function DisplayCart(props) {
         setName(props.quantity)
         console.log(name)
     }, [props.userCart])
+
     console.log("this is in display cart");
     console.log(props);
+
     return (
 
         <div className="cartObject">
@@ -22,6 +20,7 @@ function DisplayCart(props) {
             <div>
 
                 <p>Size: {props.size}</p>
+
 
                 <form action="">
 
@@ -37,8 +36,9 @@ function DisplayCart(props) {
 
 
 
-
+                <p>${props.cost * props.quantity}</p>
             </div>
+
         </div>
     )
 }

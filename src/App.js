@@ -3,7 +3,7 @@ import firebase from './firebase';
 import DisplayPosters from './DisplayPosters';
 import ModalOverlay from './ModalOverlay';
 import DisplayCart from './DisplayCart';
-
+import Checkout from './Checkout';
 
 // import { cartSubmit } from './ModalOverlay';
 import { useEffect, useState } from 'react';
@@ -35,6 +35,10 @@ function App() {
   const [cartValues, setCartValue] = useState([]);
 
   const [showMobileCart, setMobileCart] = useState(false);
+
+  const [cartTotal, setCartTotal] = useState(0);
+
+  const [finalCheckout, setFinalCheckout] = useState(false);
 
   // get firebase data on first state change
   useEffect(() => {
@@ -81,20 +85,21 @@ function App() {
   }, [])
 
   function updateCart(passedThis) {
-    console.log();
+    console.log(passedThis);
 
 
     for (let i = 0; i < passedThis.length; i++) {
-      const quantity = passedThis[i].childNodes[1].childNodes[1].childNodes[0].childNodes[1].value;
-      const id = passedThis[i].childNodes[0].id;
+      // [0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[1].value
+      const quantity = passedThis[i].childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[1].value;
+      const id = passedThis[i].childNodes[0].childNodes[0].id;
       console.log(quantity + " " + id);
-
-      if (quantity === '0') {
-        firebase.database().ref('cart').child(id).remove();
-      } else {
-        firebase.database().ref('cart').child(id).update({ quantity: quantity });
+      if (quantity >= 0) {
+        if (quantity === '0') {
+          firebase.database().ref('cart').child(id).remove();
+        } else {
+          firebase.database().ref('cart').child(id).update({ quantity: quantity });
+        }
       }
-
     }
   }
 
@@ -128,7 +133,8 @@ function App() {
                 name: e.target.parentNode.children[0].childNodes[0].innerText,
                 imgUrl: e.target.parentNode.children[0].childNodes[1].src,
                 imgAlt: e.target.parentNode.children[0].childNodes[1].alt,
-                description: e.target.parentNode.children[0].childNodes[2].innerText
+                description: e.target.parentNode.children[0].childNodes[2].innerText,
+                sku: e.target.parentNode.children[0].childNodes[3].innerText
               }
             ]
             //set the specific object to be shown
@@ -151,13 +157,15 @@ function App() {
 
       //if you click on an image html element
       if (e.target.nodeName === 'IMG') {
+        // console.log(e);
         try { //try to run this if this image has all these children elements basically this will only run on the main page images and not for modal or cart images
           const posterObject = [
             {
               name: e.target.parentElement.children[0].innerText,
               imgUrl: e.target.parentElement.children[1].src,
               imgAlt: e.target.parentElement.children[1].alt,
-              description: e.target.parentElement.children[2].innerText
+              description: e.target.parentElement.children[2].innerText,
+              sku: e.target.parentElement.children[3].innerText,
             }
           ]
           //set the specific object to be shown
@@ -177,6 +185,14 @@ function App() {
 
       }
 
+      if (e.target.id === 'sizeSmall') {
+        document.querySelector('.money').textContent = '15';
+      } else if (e.target.id === 'sizeMedium') {
+        document.querySelector('.money').textContent = '25';
+      } else if (e.target.id === 'sizeLarge') {
+        document.querySelector('.money').textContent = '35';
+      }
+
 
     })
 
@@ -187,23 +203,31 @@ function App() {
   body.style.overflow = 'visible';
 
 
+  useEffect(() => {
+    let total = 0;
+    userCart.forEach(item => {
+      total += (item.cost * item.quantity);
+    })
+    setCartTotal(total);
+
+  }, [updateCart])
 
   return (
+
     <div className="App">
       <div className="backgroundAnimation"></div>
-
 
       <header>
         <h1>Posters<span className="sr-only">Plus</span>+</h1>
       </header>
-      <main className="wrapper">
 
+      {finalCheckout ? <Checkout userCart={userCart} setUserCart={setFinalCheckout}></Checkout> : ''}
+
+      <main className="wrapper">
         <button className="cartButtonIcon" onClick={() => setMobileCart(true)}>
           <img src='./bag.png' alt="not fouund" />
         </button>
-
         <div className="postersContainer">
-
 
           {/* ternary operator used to show modal */}
           {
@@ -217,40 +241,12 @@ function App() {
               if (showModal) {
                 return ''
               } else {
-                return (<DisplayPosters name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} />)
+                return (<DisplayPosters name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} sku={postersList.poster.sku} />)
               }
             })
           }
 
-          {
-            postersList.map((postersList) => {
-              if (showModal) {
-                return ''
-              } else {
-                return (<DisplayPosters name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} />)
-              }
-            })
-          }
 
-          {
-            postersList.map((postersList) => {
-              if (showModal) {
-                return ''
-              } else {
-                return (<DisplayPosters name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} />)
-              }
-            })
-          }
-
-          {
-            postersList.map((postersList) => {
-              if (showModal) {
-                return ''
-              } else {
-                return (<DisplayPosters name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} />)
-              }
-            })
-          }
 
         </div>
 
@@ -258,21 +254,26 @@ function App() {
           <p className="cartTitle">Cart</p>
 
           <div className="cartList">
-            {
+            <ul>
 
-              userCart.map((userCart) => {
-                // console.log(userCart);
-                return (<DisplayCart quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} userCart={userCart} />)
+              {
 
-              })
+                userCart.map((userCart) => {
+                  // console.log(userCart);
+                  return (<li><DisplayCart quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} cost={userCart.cost} userCart={userCart} /></li>)
 
-            }
+                })
+
+              }
+            </ul>
           </div>
-          {userCart.length > 0 ? <button class="cartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[1].childNodes)}>Update Cart</button> :
+          {userCart.length > 0 ? <p className="cartFinalTotal"> Total: ${cartTotal}</p> : ''}
+
+          {userCart.length > 0 ? <button class="cartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[1].childNodes[0].childNodes)}>Update Cart</button> :
             <img src="https://preview.redd.it/oiusqopzyw921.png?auto=webp&s=161acb5216d5fd660e66cce29e7e0845cb16fc3d" alt="" />
           }
 
-
+          {userCart.length > 0 ? <button class="checkoutButton" id="checkoutCart" onClick={() => setFinalCheckout(true)}>Checkout</button> : ''}
 
         </div>
         {
@@ -281,17 +282,23 @@ function App() {
             <button class="mobileCartCloseButton" onClick={() => setMobileCart(false)}> Close Cart </button>
 
             <div className="cartList">
-              {
-                userCart.map((userCart) => {
-                  // console.log(userCart);
-                  return (<DisplayCart quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} userCart={userCart} />)
+              <ul>
+                {
+                  userCart.map((userCart) => {
+                    // console.log(userCart);
+                    return (<li><DisplayCart quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} cost={userCart.cost} userCart={userCart} /></li>)
 
-                })
+                  })
 
-              }
+                }
+              </ul>
             </div>
-            <button class="mobileCartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[2].childNodes)}>Update Cart</button>
+            {userCart.length > 0 ? <p className="cartFinalTotal"> Total: ${cartTotal}</p> : ''}
 
+            {userCart.length > 0 ? <button class="mobileCartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[2].childNodes[0].childNodes)}>Update Cart</button> : ''}
+
+
+            {userCart.length > 0 ? <button class="checkoutButton" id="checkoutCart" onClick={() => setFinalCheckout(true)}>Checkout</button> : ''}
 
 
           </div> : ''

@@ -9,6 +9,7 @@ function DisplayPosters(props) {
                     <p className="hide">{props.name}</p>
                     <img src={props.imgUrl} alt={`An image for a poster of ` + props.name} />
                     <p className="hide">{props.description}</p>
+                    <p className="hide">{props.sku}</p>
 
                 </button>
             </div>
