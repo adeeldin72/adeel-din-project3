@@ -1,11 +1,11 @@
 import React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function Paypal(props) {
 
     const referenceArray = [];
 
-    const [finalProducts, setFinalProducts] = useState([]);
+    // const [finalProducts, setFinalProducts] = useState([]);
 
     const paypal = useRef();
     const userCart = props.userCart;
@@ -33,31 +33,6 @@ export default function Paypal(props) {
             return newstring;
         }
     }
-    // useEffect(() => {
-    //     const updatedArray = [];
-
-    //     userCart.forEach(value => {
-    //         const quantity = value.quantity;
-    //         const productCost = value.cost;
-    //         const description = value.description;
-    //         const name = value.name;
-    //         const size = value.size;
-    //         const sku = value.sku;
-    //         const tax = 1.13;
-
-    //         const product = 
-    //         updatedArray.push(product);
-    //     }
-
-    //     );
-
-    //     setFinalProducts(updatedArray);
-
-    // }, [])
-    const generateItems = () => {
-
-    }
-
 
     useEffect(() => {
         window.paypal.Buttons({
@@ -160,6 +135,7 @@ export default function Paypal(props) {
                 console.log(err);
             }
         }).render(paypal.current);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

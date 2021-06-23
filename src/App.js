@@ -8,8 +8,6 @@ import Checkout from './Checkout';
 // import { cartSubmit } from './ModalOverlay';
 import { useEffect, useState } from 'react';
 
-import { useForm } from 'react-hook-form';
-
 
 // import framework from https://www.npmjs.com/package/react-tilt used to give the images a tilt animation 
 // import Tilt from 'react-tilt'
@@ -30,9 +28,9 @@ function App() {
   // used to hold a single object that will contain a selected images contents
   const [posterModal, setPosterModal] = useState([]);
 
-  const [defaultValue, setDefaultValue] = useState(0);
+  // const [defaultValue, setDefaultValue] = useState(0);
 
-  const [cartValues, setCartValue] = useState([]);
+  // const [cartValues, setCartValue] = useState([]);
 
   const [showMobileCart, setMobileCart] = useState(false);
 
@@ -43,7 +41,7 @@ function App() {
   // get firebase data on first state change
   useEffect(() => {
 
-    console.log(defaultValue);
+    // console.log(defaultValue);
     const dbRef = firebase.database().ref();
 
     dbRef.on('value', (response) => {
@@ -210,7 +208,10 @@ function App() {
     })
     setCartTotal(total);
 
-  }, [updateCart])
+    // }, [updateCart])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   return (
 
@@ -306,7 +307,7 @@ function App() {
 
       </main>
       <footer>
-        <p>Created by <a href="https://www.linkedin.com/in/adeeldin/" target="_blank">Adeel Din </a> a student from <a href="https://junocollege.com/" target="_blank"> Juno College</a></p>
+        <p>Created by <a href="https://www.linkedin.com/in/adeeldin/" target="_blank" rel="noopener noreferrer">Adeel Din </a> a student from <a href="https://junocollege.com/" target="_blank" rel="noopener noreferrer"> Juno College</a></p>
       </footer>
     </div>
   );

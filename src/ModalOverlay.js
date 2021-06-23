@@ -11,7 +11,7 @@ import React from 'react';
 const updateCart = (name, imgUrl, imgAlt, desc, quantity, size, cost, sku) => {
     if (quantity > 0) {
         const dbRef = firebase.database().ref();
-        let count = 0;
+        // let count = 0;
 
         let isTheSame = false;
         let currentKey = 0;
@@ -39,7 +39,7 @@ const updateCart = (name, imgUrl, imgAlt, desc, quantity, size, cost, sku) => {
                 if (key === 'cart') {
                     for (let value in data[key]) {
                         newPoster['dataKey'] = value;
-                        count++; //count how many objects exist this section of our database this will be used if we create a newPoster child object
+                        // count++; //count how many objects exist this section of our database this will be used if we create a newPoster child object
                         if (data[key][value].name === newPoster.name) { //if the current object in cart has a poster with the same name as our newPoster
                             if (data[key][value].size === newPoster.size) { //if this poster in cart is the same size as our new poster
                                 if (data[key][value].quantity < 11) { //don't believe this section is necessary just used incase so hopefully the user cant purchase more then 10. The reason I think this is not necessary is because our form can only go up to 10 and we overwrite the data below. 

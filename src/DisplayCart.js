@@ -8,6 +8,7 @@ function DisplayCart(props) {
     useEffect(() => {
         setName(props.quantity)
         console.log(name)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.userCart])
 
     console.log("this is in display cart");
