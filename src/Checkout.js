@@ -34,19 +34,19 @@ function Checkout(props) {
         <div className='CheckoutModal'>
             {checkout ? (
                 <div className="paypalContainer">
-                    <button className="paypalModalCloseButton" onClick={() => closeModal()}><i class="far fa-times-circle"></i></button>
+                    <button className="paypalModalCloseButton" onClick={() => closeModal()}><i className="far fa-times-circle"></i></button>
                     <Paypal userCart={userCart} userForm={formData} />
                 </div>
             ) : (
                 <div className="checkoutModalInnerItems">
-                    <button className="checkoutModalCloseButton" onClick={() => closeModal()}><i class="far fa-times-circle"></i></button>
+                    <button className="checkoutModalCloseButton" onClick={() => closeModal()}><i className="far fa-times-circle"></i></button>
 
                     <div className="cartItems">
                         <p className="finalCheckoutTotal">Total + Tax: ${(total * tax).toFixed(2)}</p>
                         <ul>
                             {
-                                props.userCart.map((value) => {
-                                    return (<li className="finalUserCart">
+                                props.userCart.map((value, index) => {
+                                    return (<li key={index} className="finalUserCart">
                                         <div className="innerDiv">
                                             <img src={value.imgUrl} alt={value.imgAlt} />
                                             <div>
@@ -66,22 +66,22 @@ function Checkout(props) {
                         <p className="formLabel">Shipping Info</p>
                         <form onSubmit={(e) => submitForm(e)}>
                             <div className="billingContainer1">
-                                <label for="fname"><i class="fas fa-user-alt"></i> Given Name</label>
+                                <label for="fname"><i className="fas fa-user-alt"></i> Given Name</label>
                                 <input type="text" id="fname" name="firstname" placeholder="John" required></input>
-                                <label for="lname"><i class="fas fa-user-alt"></i> Surname</label>
+                                <label for="lname"><i className="fas fa-user-alt"></i> Surname</label>
                                 <input type="text" id="lname" name="firstname" placeholder="Doe" required></input>
-                                <label for="phone"><i class="fas fa-phone"></i> Phone Number:</label>
+                                <label for="phone"><i className="fas fa-phone"></i> Phone Number:</label>
                                 <input type="tel" id="phone" name="phone" pattern="^[0-9]{1,14}?$"></input>
-                                <label for="email"><i class="fas fa-mail-bulk"></i> Email</label>
+                                <label for="email"><i className="fas fa-mail-bulk"></i> Email</label>
                                 <input type="text" id="email" name="email" placeholder="john@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required></input>
                                 <label for="country">Country</label>
                                 <select name="country" id="country">
                                     <option value="CA">CA</option>
                                     <option value="US">US</option>
                                 </select>
-                                <label for="adr"><i class="fas fa-address-card"></i> Address</label>
+                                <label for="adr"><i className="fas fa-address-card"></i> Address</label>
                                 <input type="text" id="adr" name="address" placeholder="some street 123 street" required></input>
-                                <label for="city"><i class="fas fa-city"></i> City</label>
+                                <label for="city"><i className="fas fa-city"></i> City</label>
                                 <input type="text" id="city" name="city" placeholder="Toronto" required></input>
 
                             </div>

@@ -130,7 +130,7 @@ function ModalOverlay(props) {
                             </fieldset>
                         </div>
                         <button id="formButton" onClick={(e) => cartSubmit(e, props)}>Add to Cart</button>
-                        <button className="closeModalButton" onClick={() => props.showModalState(false)}><i class="far fa-times-circle"></i></button>
+                        <button className="closeModalButton" onClick={() => props.showModalState(false)}><i className="far fa-times-circle"></i></button>
                     </form>
                     <p className="modalDescription">{props.posterToDisplay[0].description}</p>
                     <p>sku: {props.posterToDisplay[0].sku}</p>

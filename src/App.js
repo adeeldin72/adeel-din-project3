@@ -237,11 +237,11 @@ function App() {
 
           {/* display the images from the firebase returned database */}
           {
-            postersList.map((postersList) => {
+            postersList.map((postersList, index) => {
               if (showModal) {
                 return ''
               } else {
-                return (<DisplayPosters name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} sku={postersList.poster.sku} />)
+                return (<DisplayPosters key={index} name={postersList.poster.name} imgUrl={postersList.poster.imgUrl} description={postersList.poster.description} sku={postersList.poster.sku} />)
               }
             })
           }
@@ -258,9 +258,9 @@ function App() {
 
               {
 
-                userCart.map((userCart) => {
+                userCart.map((userCart, index) => {
                   // console.log(userCart);
-                  return (<li><DisplayCart quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} cost={userCart.cost} userCart={userCart} /></li>)
+                  return (<li key={index}><DisplayCart key={index} quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} cost={userCart.cost} userCart={userCart} /></li>)
 
                 })
 
@@ -269,24 +269,24 @@ function App() {
           </div>
           {userCart.length > 0 ? <p className="cartFinalTotal"> Total: ${cartTotal}</p> : ''}
 
-          {userCart.length > 0 ? <button class="cartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[1].childNodes[0].childNodes)}>Update Cart</button> :
+          {userCart.length > 0 ? <button className="cartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[1].childNodes[0].childNodes)}>Update Cart</button> :
             <img src="https://preview.redd.it/oiusqopzyw921.png?auto=webp&s=161acb5216d5fd660e66cce29e7e0845cb16fc3d" alt="" />
           }
 
-          {userCart.length > 0 ? <button class="checkoutButton" id="checkoutCart" onClick={() => setFinalCheckout(true)}>Checkout</button> : ''}
+          {userCart.length > 0 ? <button className="checkoutButton" id="checkoutCart" onClick={() => setFinalCheckout(true)}>Checkout</button> : ''}
 
         </div>
         {
           showMobileCart ? <div className="mobileCartContainer">
             <p className="cartTitle">Cart</p>
-            <button class="mobileCartCloseButton" onClick={() => setMobileCart(false)}> Close Cart </button>
+            <button className="mobileCartCloseButton" onClick={() => setMobileCart(false)}> Close Cart </button>
 
             <div className="cartList">
               <ul>
                 {
-                  userCart.map((userCart) => {
+                  userCart.map((userCart, index) => {
                     // console.log(userCart);
-                    return (<li><DisplayCart quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} cost={userCart.cost} userCart={userCart} /></li>)
+                    return (<li key={index}><DisplayCart key={index} quantity={userCart.quantity} imgUrl={userCart.imgUrl} imgAlt={userCart.imgAlt} size={userCart.size} dataBaseKey={userCart.dataKey} cost={userCart.cost} userCart={userCart} /></li>)
 
                   })
 
@@ -295,16 +295,19 @@ function App() {
             </div>
             {userCart.length > 0 ? <p className="cartFinalTotal"> Total: ${cartTotal}</p> : ''}
 
-            {userCart.length > 0 ? <button class="mobileCartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[2].childNodes[0].childNodes)}>Update Cart</button> : ''}
+            {userCart.length > 0 ? <button className="mobileCartButton" id="updateButton" onClick={(e) => updateCart(e.target.parentElement.childNodes[2].childNodes[0].childNodes)}>Update Cart</button> : ''}
 
 
-            {userCart.length > 0 ? <button class="checkoutButton" id="checkoutCart" onClick={() => setFinalCheckout(true)}>Checkout</button> : ''}
+            {userCart.length > 0 ? <button className="checkoutButton" id="checkoutCart" onClick={() => setFinalCheckout(true)}>Checkout</button> : ''}
 
 
           </div> : ''
         }
 
       </main>
+      <footer>
+        <p>Created by <a href="https://www.linkedin.com/in/adeeldin/" target="_blank">Adeel Din </a> a student from <a href="https://junocollege.com/" target="_blank"> Juno College</a></p>
+      </footer>
     </div>
   );
 }
