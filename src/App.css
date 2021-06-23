@@ -376,6 +376,7 @@ li {
   margin: auto;
   width: 75%;
   height: auto;
+  
 }
 .cartButton {
   display: none;
@@ -507,19 +508,20 @@ li {
 }
 
 .closeModalButton {
-  background-color: #2b2e4a;
-  color: #f9f7f7;
+  background-color: transparent;
+  color: #000;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 2rem;
   padding: 5px 15px;
-  border-radius: 50px;
+  border: none;
+  /* border-radius: 50px; */
   position: absolute;
   top: 0;
   right: 0;
 }
 .closeModalButton:hover,
-.closeModalButton:active {
-  background-color: #ffb6b9;
+.closeModalButton:focus, .closeModalButton:active {
+  color: red;
 }
 
 .checkoutButton {
@@ -567,6 +569,19 @@ li {
   animation-timing-function: ease;
   will-change: scale;
 }
+.paypalContainer {
+  max-width: 500px;
+  width: 75%;
+  height: auto;
+  max-height: 80%; 
+  overflow-y: auto;
+  background-color: rgba(255,255,255, 0.9);
+  padding: 25px;
+  /* display: flex;
+  justify-content: center; */
+  
+}
+
 
 @keyframes grow2 {
   from {
@@ -621,10 +636,22 @@ li {
   background-color: white;
 }
 
-.checkoutModalCloseButton {
+.checkoutModalCloseButton, .paypalModalCloseButton {
   position: absolute;
   right: 0;
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
 }
+
+.checkoutModalCloseButton:hover, .checkoutModalCloseButton:focus, .checkoutModalCloseButton:active, .paypalModalCloseButton:active, .paypalModalCloseButton:hover, .paypalModalCloseButton:focus {
+ color: red;
+}
+.paypalModalCloseButton {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  }
 
 .cartShipping form input {
 }
