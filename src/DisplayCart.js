@@ -15,7 +15,7 @@ function DisplayCart(props) {
 
     return (
 
-        <div className="cartObject">
+        <div className="cartObject " >
             <img id={`${props.dataBaseKey}`} src={props.imgUrl} alt={props.imgAlt} />
             <div>
 
