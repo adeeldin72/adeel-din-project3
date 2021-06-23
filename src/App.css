@@ -448,7 +448,7 @@ li {
   position: fixed;
   z-index: 20;
   right: 10px;
-  bottom: 10px;
+  bottom: 80px;
 }
 
 .cartButtonIcon:active {
@@ -650,6 +650,24 @@ li {
   border: 2px solid black;
 }
 
+footer {
+  background-color: #393E46;
+  display: flex;
+  justify-content: center;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  font-size: 1.25rem;
+  text-align: center;
+
+}
+
+footer a {
+  color: yellow;
+  text-decoration: none;
+
+}
 
 @keyframes grow2 {
   from {
@@ -739,6 +757,7 @@ li {
   text-transform: uppercase;
   font-weight: 700;
   margin-bottom: 5px;
+
 }
 
 .finalUserCart .innerDiv {
