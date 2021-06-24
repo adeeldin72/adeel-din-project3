@@ -16,3 +16,5 @@ firebase.initializeApp(firebaseConfig);
 
 
 export default firebase;
+
+//firebase initialization content

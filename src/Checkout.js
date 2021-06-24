@@ -1,17 +1,21 @@
 import { useState } from "react";
-import Paypal from "./Paypal";
+import Paypal from "./Paypal"; //paypal stuff
 function Checkout(props) {
-    const userCart = props.userCart;
+    const userCart = props.userCart; //user cart prop added here
     const [checkout, setCheckout] = useState(false);
     const [formData, setFormData] = useState([]);
-    let total = 0;
-    const tax = 1.13;
-    userCart.forEach(value => {
+
+    let total = 0; //used to show total at end
+
+    const tax = 1.13; //hard coded 13% tax but not the best way it would be better to get user location and use that to get there location tax amount and input here
+
+    userCart.forEach(value => { //used to loop through all cart values and get the cart total without tax
         total += (value.cost * value.quantity);
     })
-    const submitForm = (e) => {
+
+    const submitForm = (e) => { //on submit form 
         e.preventDefault();
-        const formData = {
+        const formData = { //create form data
             firstName: document.querySelector('#fname').value,
             surName: document.querySelector('#lname').value,
             email: document.querySelector('#email').value,
@@ -22,14 +26,16 @@ function Checkout(props) {
             phone: document.querySelector('#phone').value,
             countryCode: document.querySelector('#country').value,
         }
-        console.log(formData);
-        setCheckout(true);
-        setFormData([formData]);
+
+        setCheckout(true); //set checkout state to true
+        setFormData([formData]); //change state
+        //after this on rerender paypal will be true so paypal will show up and this formData and userCart const declared up above is passed to the paypal component to be used further. 
     }
-    const closeModal = () => {
+    const closeModal = () => { //function used to close modal and remove checkout
         props.setUserCart(false);
         setCheckout(false);
     }
+    //the return returns a checkout modal that has a modal background and container for the cart list on the left and a form container on the right. There is also a ternary operator used for Paypal when if paypal is true we display the paypal smart buttons the forms also have a required to make sure that they only submit once everything is inputted
     return (
         <div className='CheckoutModal'>
             {checkout ? (
@@ -66,32 +72,32 @@ function Checkout(props) {
                         <p className="formLabel">Shipping Info</p>
                         <form onSubmit={(e) => submitForm(e)}>
                             <div className="billingContainer1">
-                                <label for="fname"><i className="fas fa-user-alt"></i> Given Name</label>
+                                <label htmlFor="fname"><i className="fas fa-user-alt"></i> Given Name</label>
                                 <input type="text" id="fname" name="firstname" placeholder="John" required></input>
-                                <label for="lname"><i className="fas fa-user-alt"></i> Surname</label>
+                                <label htmlFor="lname"><i className="fas fa-user-alt"></i> Surname</label>
                                 <input type="text" id="lname" name="firstname" placeholder="Doe" required></input>
-                                <label for="phone"><i className="fas fa-phone"></i> Phone Number:</label>
+                                <label htmlFor="phone"><i className="fas fa-phone"></i> Phone Number:</label>
                                 <input type="tel" id="phone" name="phone" pattern="^[0-9]{1,14}?$"></input>
-                                <label for="email"><i className="fas fa-mail-bulk"></i> Email</label>
+                                <label htmlFor="email"><i className="fas fa-mail-bulk"></i> Email</label>
                                 <input type="text" id="email" name="email" placeholder="john@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required></input>
-                                <label for="country">Country</label>
+                                <label htmlFor="country">Country</label>
                                 <select name="country" id="country">
                                     <option value="CA">CA</option>
                                     <option value="US">US</option>
                                 </select>
-                                <label for="adr"><i className="fas fa-address-card"></i> Address</label>
+                                <label htmlFor="adr"><i className="fas fa-address-card"></i> Address</label>
                                 <input type="text" id="adr" name="address" placeholder="some street 123 street" required></input>
-                                <label for="city"><i className="fas fa-city"></i> City</label>
+                                <label htmlFor="city"><i className="fas fa-city"></i> City</label>
                                 <input type="text" id="city" name="city" placeholder="Toronto" required></input>
 
                             </div>
                             <div className="billingContainer2">
                                 <div className="billingContainer3">
-                                    <label for="state">Province/State</label>
+                                    <label htmlFor="state">Province/State</label>
                                     <input type="text" id="state" name="state" placeholder="ON" required></input>
                                 </div>
                                 <div className="billingContainer3">
-                                    <label for="zip">Zip</label>
+                                    <label htmlFor="zip">Zip</label>
                                     <input type="text" id="zip" name="zip" placeholder="A1A 1A1" required></input>
                                 </div>
                             </div>
