@@ -355,6 +355,10 @@ img {
   margin: auto;
 }
 
+.wrapper2 {
+  max-width: 2000px;
+}
+
 .posterButton {
   border: none;
   background-color: transparent;

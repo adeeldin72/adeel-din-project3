@@ -44,7 +44,7 @@ function Checkout(props) {
                     <Paypal userCart={userCart} userForm={formData} />
                 </div>
             ) : (
-                <div className="checkoutModalInnerItems">
+                <div className="checkoutModalInnerItems wrapper2">
                     <button className="checkoutModalCloseButton" onClick={() => closeModal()}><i className="far fa-times-circle"></i></button>
 
                     <div className="cartItems">
