@@ -43,7 +43,7 @@ const updateCart = (name, imgUrl, imgAlt, desc, quantity, size, cost, sku) => { 
                                 if (data[key][value].quantity < 11) { //don't believe this section is necessary just used incase so hopefully the user cant purchase more then 10. The reason I think this is not necessary is because our form can only go up to 10 and we overwrite the data below. 
                                     currentKey = value; //currentKey is set to currentValue
 
-                                    // console.log(value);
+
                                     //then set the value of our current object to currentKey
                                     isTheSame = true; //set is the same to true so our function below can run
 
@@ -93,7 +93,7 @@ function ModalOverlay(props) {
 
     const body = document.querySelector('body'); //get body
     body.style.overflow = 'hidden'; //set it so scroll stops
-    // console.log(props);
+
     return (
         <div id='modal' className="posterModal">
             <div className="innerContent">

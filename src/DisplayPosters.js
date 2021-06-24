@@ -1,7 +1,7 @@
 import Tilt from 'react-tilt' //imported library used for tilt function
 
 function DisplayPosters(props) {
-    // console.log(props);
+
     return (
         // this is the above imported library used to add tilt to the pictures
         <Tilt className="Tilt" options={{ max: 25, scale: 1, }} style={{ height: 'auto', width: 'auto' }} >

@@ -131,8 +131,6 @@ export default function Paypal(props) {
             }, //on approve do this
             onApprove: async (data, actions) => {
                 const order = await actions.order.capture();
-                console.log("Successful Order");
-                console.log(order);
 
                 setOrderInfo([true, order]); //set order info to [0] = true, and [1] = order object
 

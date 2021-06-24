@@ -55,7 +55,7 @@ function App() {
   // CART FIREBASE STUFF STARTS HERE
   // useEffect(() => {
 
-  //   // console.log(defaultValue);
+  //   
   //   const dbRef = firebase.database().ref();
 
   //   dbRef.on('value', (response) => {
@@ -136,7 +136,7 @@ function App() {
   useEffect(() => {
 
     window.addEventListener("keydown", (e) => { //add keyboard event listener
-      // console.log(e);
+
       try {
         if (e.target.parentNode.children[0].childNodes[1].nodeName === 'IMG' && e.key === "Enter") { //if the we pressed enter on an img
           try { //try to run this if this image has all these children elements basically this will only run on the main page images and not for modal or cart images
