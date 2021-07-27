@@ -619,6 +619,10 @@ li {
   transform: scale(0.9);
 }
 
+.cartList {
+  max-height: 60vh;
+  overflow-y: auto;
+}
 
 .cartFinalTotal {
   margin: 25px;
